@@ -9,9 +9,9 @@ A fork of django-thumbs [http://code.google.com/p/django-thumbs/] by Antonio Mel
 import six
 
 if six.PY2:
-    import cStringIO
+    from cStringIO import StringIO
 else:
-    from io import StringIO as cStringIO
+    from io import BytesIO as StringIO
 
 from django.db.models import ImageField
 from django.db.models.fields.files import ImageFieldFile
@@ -41,7 +41,7 @@ def generate_thumb(original, size, format='JPEG'):
     if image.mode not in ('L', 'RGB', 'RGBA'):
         image = image.convert('RGB')
     thumbnail = ImageOps.fit(image, size, Image.ANTIALIAS)
-    io = cStringIO.StringIO()
+    io = StringIO()
     if format.upper() == 'JPG':
         format = 'JPEG'
     thumbnail.save(io, format)
