@@ -91,6 +91,10 @@ class ImageWithThumbsFieldFile(ImageFieldFile):
         name -- The field `url` with size suffix formatted as _WxH. Example: instance.url_100x70
 
         """
+        
+        if "url_" not in name:
+            return super(ImageWithThumbsFieldFile, self).__getattr__(name)
+        
         sizeStr = name.replace("url_", "")
         width, height = sizeStr.split("x")
         requestedSize = (int(width), int(height))
